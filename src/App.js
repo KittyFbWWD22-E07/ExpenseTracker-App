@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import moment from "moment/moment";
 import {
     Grid,
@@ -8,49 +8,101 @@ import {
     CardContent,
     Typography,
     Divider,
-    Button,
 } from "@mui/material";
 import TransactionType from "./components/TransactionType";
 import CategorySelection from "./components/CategorySelection";
 import Amount from "./components/Amount";
 import DateSelection from "./components/DateSelection";
 import CreateStatement from "./components/CreateStatement";
+import CreateButton from "./components/CreateButton";
 import "./App.css";
 
-function App() {
-    const [date, setDate] = useState(moment());
-    const [type, setType] = useState("income");
-    const [category, setCategory] = useState("");
-    const [amount, setAmount] = useState("");
-    const [balance, setBalance] = useState("0.00");
-    const [statements, setStatements] = useState([]);
+const initialState = {
+    date: moment(),
+    type: "income",
+    category: "",
+    amount: "",
+    balance: "0.00",
+    statements: [],
+};
 
-    const addStatement = (newStatement) => {
-        setStatements([newStatement, ...statements]);
-    };
+function reducer(state, action) {
+    switch (action.type) {
+        case "ADD_STATEMENT":
+            const newStatement = {
+                id: Math.floor(Math.random() * 10000),
+                date: state.date,
+                category: state.category,
+                amount: state.amount,
+                type: state.type,
+            };
+            return {
+                ...state,
+                statements: [newStatement, ...state.statements],
+            };
+        case "UPDATE_BALANCE":
+            const newBalance =
+                action.payload.type === "income"
+                    ? Number(state.balance) + Number(action.payload.amount)
+                    : Number(state.balance) - Number(action.payload.amount);
+            return {
+                ...state,
+                balance: newBalance.toFixed(2),
+            };
+        case "SET_CATEGORY":
+            return {
+                ...state,
+                category: action.payload,
+            };
+        case "SET_AMOUNT":
+            return {
+                ...state,
+                amount: action.payload,
+            };
+        case "SET_TYPE":
+            return {
+                ...state,
+                type: action.payload,
+            };
+        case "SET_DATE":
+            return {
+                ...state,
+                date: action.payload,
+            };
+        default:
+            break;
+    }
+}
+
+function App() {
+    const [state, dispatch] = useReducer(reducer, initialState);
 
     const createStatement = () => {
-        const statement = {
-            id: Math.floor(Math.random() * 10000),
-            date: date,
-            category: category,
-            amount: amount,
-            type: type,
-        };
-        updateBalance();
-        addStatement(statement);
-        setCategory("");
-        setAmount("");
-        setType("income");
-        setDate(moment())
+        dispatch({ type: "ADD_STATEMENT" });
+        dispatch({
+            type: "UPDATE_BALANCE",
+            payload: { type: state.type, amount: state.amount },
+        });
+        dispatch({ type: "SET_CATEGORY", payload: "" });
+        dispatch({ type: "SET_AMOUNT", payload: "" });
+        dispatch({ type: "SET_TYPE", payload: "income" });
+        dispatch({ type: "SET_DATE", payload: moment() });
     };
 
-    const updateBalance = () => {
-        if (type === "income") {
-            setBalance(Number(balance) + Number(amount));
-        } else {
-            setBalance((Number(balance) - Number(amount)).toFixed(2));
-        }
+    const setCategory = (category) => {
+        dispatch({ type: "SET_CATEGORY", payload: category });
+    };
+
+    const setAmount = (amount) => {
+        dispatch({ type: "SET_AMOUNT", payload: amount });
+    };
+
+    const setType = (type) => {
+        dispatch({ type: "SET_TYPE", payload: type });
+    };
+
+    const setDate = (date) => {
+        dispatch({ type: "SET_DATE", payload: date });
     };
 
     return (
@@ -79,7 +131,7 @@ function App() {
                             <CardHeader align="left" title="Expense Tracker" />
                             <CardContent>
                                 <Typography variant="h5">
-                                    Total Balance $ {balance}
+                                    Total Balance $ {state.balance}
                                 </Typography>
                                 <Typography
                                     align="left"
@@ -97,46 +149,43 @@ function App() {
                                     </Grid>
 
                                     <TransactionType
-                                        type={type}
+                                        type={state.type}
                                         setType={setType}
                                     />
 
                                     <CategorySelection
-                                        category={category}
+                                        category={state.category}
                                         setCategory={setCategory}
-                                        type={type}
+                                        type={state.type}
                                     />
 
                                     <Amount
-                                        amount={amount}
+                                        amount={state.amount}
                                         setAmount={setAmount}
                                     />
 
                                     <DateSelection
-                                        date={date}
+                                        date={state.date}
                                         setDate={setDate}
                                     />
                                 </Grid>
 
-                                <Button
-                                    fullWidth
-                                    onClick={createStatement}
-                                    variant="outlined"
-                                    color="success"
-                                    style={{ marginTop: "20px" }}
-                                >
-                                    CREATE
-                                </Button>
+                                <CreateButton onClick={createStatement} />
                             </CardContent>
                             <CardContent>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12}>
                                         <CreateStatement
-                                            type={type}
-                                            amount={amount}
-                                            date={date}
-                                            category={category}
-                                            statements={statements}
+                                            sx={{
+                                                height: 150,
+                                                overflow: "hidden",
+                                                overflowY: "scroll",
+                                            }}
+                                            type={state.type}
+                                            amount={state.amount}
+                                            date={state.date}
+                                            category={state.category}
+                                            statements={state.statements}
                                         />
                                     </Grid>
                                 </Grid>
