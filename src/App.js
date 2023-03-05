@@ -65,6 +65,28 @@ function App() {
         }
     }, [isCreateButtonClicked, createStatement]);
 
+    const totalIncome = statements.reduce(
+        (accumulator, statement) => {
+            if (statement.type === "income") {
+                return { total: accumulator.total + Number(statement.amount) };
+            }
+            // return the accumulator object if the statement type is not income
+            return accumulator;
+        },
+        { total: 0 }
+    );
+
+    const totalExpenses = statements.reduce(
+        (accumulator, statement) => {
+            if (statement.type === "expense") {
+                return { total: accumulator.total + Number(statement.amount) };
+            }
+            // return the accumulator object if the statement type is not expense
+            return accumulator;
+        },
+        { total: 0 }
+    );
+
     return (
         <div className="App">
             <Grid
@@ -82,7 +104,14 @@ function App() {
                         variant="outlined"
                         style={{ backgroundColor: "green" }}
                     >
-                        Let's Get Started!!!
+                        <Card style={{ margin: "2px" }}>
+                            <CardHeader align="left" title="Total Income" />
+                            <CardContent>
+                                <Typography variant="h5">
+                                    $ {totalIncome.total}
+                                </Typography>
+                            </CardContent>
+                        </Card>
                     </Paper>
                 </Grid>
                 <Grid item xs={12} md={5}>
@@ -144,20 +173,14 @@ function App() {
                             </CardContent>
                             <CardContent>
                                 <Grid container spacing={2}>
-                                    <Grid
-                                        item
-                                        xs={12}
-                                        style={{
-                                            height: "170px",
-                                            overflowY: "auto",
-                                        }}
-                                    >
+                                    <Grid item xs={12}>
                                         <CreateStatement
                                             type={type}
                                             amount={amount}
                                             date={date}
                                             category={category}
                                             statements={statements}
+                                            setStatements={setStatements}
                                         />
                                     </Grid>
                                 </Grid>
@@ -171,7 +194,14 @@ function App() {
                         variant="outlined"
                         style={{ backgroundColor: "red" }}
                     >
-                        Let's Get Started!!!
+                        <Card style={{ margin: "2px" }}>
+                            <CardHeader align="left" title="Total Expenses" />
+                            <CardContent>
+                                <Typography variant="h5">
+                                    $ {totalExpenses.total}
+                                </Typography>
+                            </CardContent>
+                        </Card>
                     </Paper>
                 </Grid>
             </Grid>

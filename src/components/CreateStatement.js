@@ -13,14 +13,23 @@ import {
 import { Delete, Edit, MoneyOff, AttachMoney } from "@mui/icons-material";
 import { red, green } from "@mui/material/colors";
 
-function CreateStatement({ statements }) {
-    const { type, date, amount, category } = statements;
-    if (date && type && amount && category) {
+function CreateStatement({ statements, setStatements }) {
+    const { id, type, date, amount, category } = statements;
+    if (id && date && type && amount && category) {
         console.log("I am creating a list");
     }
 
+    const handleDelete = (id) => {
+        const updatedStatements = [...statements].filter((statement) => statement.id !== id);
+        setStatements(updatedStatements);
+    }
+
     return (
-        <List >
+        <List sx={{
+            maxHeight: "150px",
+            overflow: "hidden",
+            overflowY: "auto",
+        }}>
             {statements.map(({ id, type, category, amount, date }) => (
                 <ListItem
                     key={id}
@@ -42,7 +51,7 @@ function CreateStatement({ statements }) {
                                 TransitionComponent={Zoom}
                                 title="Delete entry"
                             >
-                                <IconButton edge="end" aria-label="delete">
+                                <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(id)}>
                                     <Delete />
                                 </IconButton>
                             </Tooltip>
