@@ -6,12 +6,16 @@ import { Paper } from "@mui/material";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ExpenseChart = ({ data }) => {
+    const { id, type, date, amount, category } = data;
 
+    if (id && date && type && amount && category) {
+
+       console.log("I am loading");
+
+    }
 
     const categories = [...new Set(data.filter((item) => item.type === "expense").map((item) => item.category))];
-    if (categories) {
-        console.log(categories);
-    }
+
 
     const expenseData = categories.map((category) => {
         const totalExpense = data
@@ -53,14 +57,11 @@ const ExpenseChart = ({ data }) => {
     const chartOptions = {
         responsive: true,
         maintainAspectRatio: false,
-        // legend: {
-        //   display: true,
 
-        // },
       };
 
       return (
-        <Paper elevation={0} sx={{display: "block",width: "100%", height: "490px"}}>
+        <Paper elevation={0} sx={{display: "block",width: "100%", height: "420px"}}>
             <Doughnut data={chartData} options={chartOptions} />
         </Paper>
 

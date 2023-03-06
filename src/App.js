@@ -107,8 +107,7 @@ function App() {
             >
                 <Grid item xs={12} md={3}>
                     <Paper
-                        elevate={3}
-                        variant="outlined"
+                        elevation={4}
                         style={{ backgroundColor: "green" }}
                     >
                         <Card style={{ margin: "2px" }}>
@@ -189,6 +188,8 @@ function App() {
                                             category={category}
                                             statements={statements}
                                             setStatements={setStatements}
+                                            balance={balance}
+                                            setBalance={setBalance}
                                         />
                                     </Grid>
                                 </Grid>
@@ -198,8 +199,7 @@ function App() {
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <Paper
-                        elevate={3}
-                        variant="outlined"
+                        elevation={4}
                         style={{ backgroundColor: "red" }}
                     >
                         <Card style={{ margin: "2px" }}>

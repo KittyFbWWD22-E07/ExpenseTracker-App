@@ -45,7 +45,7 @@ const IncomeChart = ({ data }) => {
       };
 
       return (
-        <Paper elevation={0} sx={{display: "block",width: "100%", height: "490px"}}>
+        <Paper elevation={0} sx={{display: "block",width: "100%", height: "420px"}}>
             <Doughnut data={chartData} options={chartOptions} />
         </Paper>
 
