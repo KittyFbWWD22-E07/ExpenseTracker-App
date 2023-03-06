@@ -1,5 +1,5 @@
 .App {
   text-align: center;
-
+  height: 100vh;
+  background: linear-gradient(to bottom, #2d455c, #4f829c);
 }
-

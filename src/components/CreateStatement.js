@@ -14,10 +14,10 @@ import { Delete, Edit, MoneyOff, AttachMoney } from "@mui/icons-material";
 import { red, green } from "@mui/material/colors";
 
 function CreateStatement({ statements, setStatements, balance, setBalance }) {
-    const { id, type, date, amount, category } = statements;
-    if (id && date && type && amount && category) {
-        console.log("I am creating a list");
-    }
+    // const { id, type, date, amount, category } = statements;
+    // if (id && date && type && amount && category) {
+    //     console.log("I am creating a list");
+    // }
 
     const handleDelete = (id) => {
         const statementToDelete = statements.find((statement) => statement.id === id);

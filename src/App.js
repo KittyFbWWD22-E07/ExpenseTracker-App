@@ -10,20 +10,19 @@ import {
     Divider,
     Button,
 } from "@mui/material";
+import Header from "./components/Header";
 import TransactionType from "./components/TransactionType";
 import CategorySelection from "./components/CategorySelection";
 import Amount from "./components/Amount";
 import DateSelection from "./components/DateSelection";
-// import CreateButton from "./components/CreateButton";
 import CreateStatement from "./components/CreateStatement";
-// import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-// import { Doughnut } from 'react-chartjs-2';
 import IncomeChart from "./components/IncomeChart";
 import ExpenseChart from "./components/ExpenseChart";
 
 import "./App.css";
 
 function App() {
+
     const [date, setDate] = useState(moment());
     const [type, setType] = useState("income");
     const [category, setCategory] = useState("");
@@ -31,6 +30,7 @@ function App() {
     const [balance, setBalance] = useState("0.00");
     const [statements, setStatements] = useState([]);
     const [isCreateButtonClicked, setIsCreateButtonClicked] = useState(false);
+
 
     const addStatement = useCallback(
         (newStatement) => {
@@ -94,6 +94,7 @@ function App() {
         { total: 0 }
     );
 
+
     return (
         <div className="App">
             <Grid
@@ -105,10 +106,11 @@ function App() {
                     height: "100vh",
                 }}
             >
+                <Header />
                 <Grid item xs={12} md={3}>
                     <Paper
                         elevation={4}
-                        style={{ backgroundColor: "green" }}
+                        style={{ borderBottom: "green 10px solid" }}
                     >
                         <Card style={{ margin: "2px" }}>
                             <CardHeader align="left" title="Total Income" />
@@ -200,7 +202,7 @@ function App() {
                 <Grid item xs={12} md={3}>
                     <Paper
                         elevation={4}
-                        style={{ backgroundColor: "red" }}
+                        style={{ borderBottom: "red 10px solid" }}
                     >
                         <Card style={{ margin: "2px" }}>
                             <CardHeader align="left" title="Total Expenses" />
