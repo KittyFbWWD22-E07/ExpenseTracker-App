@@ -16,6 +16,11 @@ import Amount from "./components/Amount";
 import DateSelection from "./components/DateSelection";
 // import CreateButton from "./components/CreateButton";
 import CreateStatement from "./components/CreateStatement";
+// import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+// import { Doughnut } from 'react-chartjs-2';
+import IncomeChart from "./components/IncomeChart";
+import ExpenseChart from "./components/ExpenseChart";
+
 import "./App.css";
 
 function App() {
@@ -65,6 +70,8 @@ function App() {
         }
     }, [isCreateButtonClicked, createStatement]);
 
+    // this reduce function returns an object with a "total" property
+    // it updates on each iteration if the statement transaction type is "income"
     const totalIncome = statements.reduce(
         (accumulator, statement) => {
             if (statement.type === "income") {
@@ -110,6 +117,7 @@ function App() {
                                 <Typography variant="h5">
                                     $ {totalIncome.total}
                                 </Typography>
+                                <IncomeChart data={statements}/>
                             </CardContent>
                         </Card>
                     </Paper>
@@ -200,6 +208,8 @@ function App() {
                                 <Typography variant="h5">
                                     $ {totalExpenses.total}
                                 </Typography>
+                                <ExpenseChart data={statements}/>
+
                             </CardContent>
                         </Card>
                     </Paper>
