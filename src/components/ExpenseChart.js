@@ -22,8 +22,8 @@ const ExpenseChart = ({ data }) => {
             .filter(
                 (item) => (item.category === category)
             )
-            .reduce((sum, item) => sum + item.amount, 0);
-            return totalExpense;
+            .reduce((sum, item) => sum + Number(item.amount), 0.00);
+            return totalExpense.toFixed(2);
             });
 
     const chartData = {

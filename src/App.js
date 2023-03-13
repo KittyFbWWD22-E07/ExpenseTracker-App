@@ -22,7 +22,6 @@ import ExpenseChart from "./components/ExpenseChart";
 import "./App.css";
 
 function App() {
-
     const [date, setDate] = useState(moment());
     const [type, setType] = useState("income");
     const [category, setCategory] = useState("");
@@ -30,7 +29,6 @@ function App() {
     const [balance, setBalance] = useState("0.00");
     const [statements, setStatements] = useState([]);
     const [isCreateButtonClicked, setIsCreateButtonClicked] = useState(false);
-
 
     const addStatement = useCallback(
         (newStatement) => {
@@ -94,7 +92,6 @@ function App() {
         { total: 0 }
     );
 
-
     return (
         <div className="App">
             <Grid
@@ -108,17 +105,15 @@ function App() {
             >
                 <Header />
                 <Grid item xs={12} md={3}>
-                    <Paper
-                        elevation={4}
-                        style={{ borderBottom: "green 10px solid" }}
-                    >
-                        <Card style={{ margin: "2px" }}>
+                    <Paper elevation={4}>
+                        {/* style={{ borderBottom: "green 10px solid" }} */}
+                        <Card style={{ borderBottom: "green 10px solid" }}>
                             <CardHeader align="left" title="Total Income" />
                             <CardContent>
                                 <Typography variant="h5">
                                     $ {totalIncome.total}
                                 </Typography>
-                                <IncomeChart data={statements}/>
+                                <IncomeChart data={statements} />
                             </CardContent>
                         </Card>
                     </Paper>
@@ -200,18 +195,14 @@ function App() {
                     </Paper>
                 </Grid>
                 <Grid item xs={12} md={3}>
-                    <Paper
-                        elevation={4}
-                        style={{ borderBottom: "red 10px solid" }}
-                    >
-                        <Card style={{ margin: "2px" }}>
+                    <Paper elevation={4}>
+                        <Card style={{ borderBottom: "red 10px solid" }}>
                             <CardHeader align="left" title="Total Expenses" />
                             <CardContent>
                                 <Typography variant="h5">
                                     $ {totalExpenses.total}
                                 </Typography>
-                                <ExpenseChart data={statements}/>
-
+                                <ExpenseChart data={statements} />
                             </CardContent>
                         </Card>
                     </Paper>
